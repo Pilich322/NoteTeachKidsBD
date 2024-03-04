@@ -16,6 +16,7 @@ import com.example.notes.NoteAdapter;
 import com.example.notes.Notes;
 import com.example.notes.R;
 import com.example.notes.database.DBManager;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -34,6 +35,17 @@ public class NotesFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        FloatingActionButton addNote = view.findViewById(R.id.actionButtonAddNotes);
+        addNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView,new AddNotteFragment())
+                        .addToBackStack("")
+                        .commit();
+            }
+        });
         dbManager = new DBManager(getContext());
         dbManager.openDb();
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewNotes);
@@ -42,7 +54,8 @@ public class NotesFragment extends Fragment {
             public void onChangeClick(Notes note, int position) {
                 getParentFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.fragmentContainerView,new ChangeNoteFragment())
+                        .replace(R.id.fragmentContainerView,new ChangeNoteFragment(note))
+                        .addToBackStack("")
                         .commit();
             }
         };
