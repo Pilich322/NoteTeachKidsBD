@@ -15,16 +15,16 @@ import java.util.List;
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     private final LayoutInflater inflater;
-    private final List<Notes> notes;
+    private List<Notes> notes;
     private final OnDeleteClickListener onDeleteClickListener;
     private final OnChangeClickListener onChangeClickListener;
 
     public interface OnDeleteClickListener {
-        void onDeleteClick(Notes student, int position);
+        void onDeleteClick(Notes note, int position);
     }
 
     public interface OnChangeClickListener {
-        void onChangeClick(Notes student, int position);
+        void onChangeClick(Notes note, int position);
     }
 
 
@@ -48,9 +48,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
         holder.title.setText(note.getTitle());
         holder.text.setText(note.getText());
         holder.delete.setOnClickListener(v -> {
-          onDeleteClickListener.onDeleteClick(note,position);
-          notifyItemRemoved(position);
+          onDeleteClickListener.onDeleteClick(note,holder.getAdapterPosition());
+          notes.remove(note);
+          notifyItemRemoved(holder.getAdapterPosition());
         });
+        holder.change.setOnClickListener(
+                v -> onChangeClickListener.onChangeClick(note, holder.getAdapterPosition()));
     }
 
     @Override

@@ -10,6 +10,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.notes.database.DBManager;
+import com.example.notes.fragments.NotesFragment;
 
 import java.util.List;
 
@@ -19,8 +20,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        DBManager dbManager = new DBManager(this);
-        dbManager.openDb();
-        dbManager.closeDb();
     }
 }
